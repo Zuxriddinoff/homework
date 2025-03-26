@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Article</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: #f4f4f4;
+        }
+        .container {
+            background: #fff;
+            border: 2px solid #000;
+            padding: 20px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 3px 3px 0px #000;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 2px solid #000;
+            box-shadow: 2px 2px 0px #000;
+        }
+        button {
+            background: #fff;
+            border: 2px solid #000;
+            padding: 10px 20px;
+            box-shadow: 2px 2px 0px #000;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>New Article</h1>
+        <form>
+            <label for="title">Article Title</label>
+            <input type="text" id="title" placeholder="Article Title">
+            <label for="date">Publishing Date</label>
+            <input type="date" id="date">
+            <label for="content">Content</label>
+            <textarea id="content" rows="8" placeholder="Content"></textarea>
+            <button type="submit">Publish</button>
+        </form>
+    </div>
+</body>
+</html>

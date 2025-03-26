@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Personal Blog Admin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            margin: 50px;
+        }
+        .container {
+            border: 2px solid #000;
+            border-radius: 10px;
+            padding: 20px;
+            width: 350px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .add-btn {
+            color: #000;
+            text-decoration: none;
+        }
+        .article-list {
+            list-style: none;
+            padding: 0;
+        }
+        .article-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+        }
+        .actions a {
+            margin-left: 10px;
+            color: #b0b0b0;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <span>Personal Blog</span>
+            <a href="edit.html" class="add-btn">+ Add</a>
+        </div>
+        <ul class="article-list" id="article-list"></ul>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const articleList = document.getElementById('article-list');
+            const response = await fetch('/static/admin.json');
+            const articles = await response.json();
+
+            function renderArticles() {
+                articleList.innerHTML = '';
+                articles.forEach(article => {
+                    const li = document.createElement('li');
+                    li.className = 'article-item';
+                    li.innerHTML = `
+                        <span>${article.title}</span>
+                        <div class="actions">
+                            <a href="edit.html?id=${article.id}">Edit</a>
+                            <a href="#" onclick="deleteArticle('${article.id}')">Delete</a>
+                        </div>
+                    `;
+                    articleList.appendChild(li);
+                });
+            }
+
+            window.deleteArticle = (id) => {
+                const updatedArticles = articles.filter(article => article.id !== id);
+                localStorage.setItem('articles', JSON.stringify(updatedArticles));
+                renderArticles();
+            };
+
+            renderArticles();
+        });
+    </script>
+</body>
+</html>
+
