@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+ <html lang="en">
+ 
+ <head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Login page</title>
+ </head>
+ 
+ <body>
+   <h1>Login page</h1>
+ 
+   <form action="/login" method="POST">
+     <label for="email">Email</label>
+     <input type="email" name="email" id="email" required>
+     <label for="password">Password</label>
+     <input type="password" name="password" id="password" required>
+     <button type="submit">Login</button>
+   </form>
+   <a href="register">Register</a>
+
+   <button onclick="toogleTheme()">dark-lighdt</button>
+
+
+   <script>
+
+    function toogleTheme(){
+        document.body.classList.toggle('dark-theme')
+    }
+
+    
+   </script>
+
+   <style>
+
+    .dark-theme{
+
+    background-color: rgb(77, 238, 3);
+    color: rgb(68, 0, 255);
+
+   }
+   </style>
+
+   
+
+
+ </body>
+ 
+ </html>
