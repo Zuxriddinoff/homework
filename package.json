@@ -1,0 +1,28 @@
+{
+  "name": "n-20-nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/server.js",
+    "start:dev": "node --watch src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DiyorMarufov/N-20-NODEJS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/DiyorMarufov/N-20-NODEJS/issues"
+  },
+  "homepage": "https://github.com/DiyorMarufov/N-20-NODEJS#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "pg": "^8.14.1"
+  }
+}
