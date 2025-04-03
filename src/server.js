@@ -29,9 +29,13 @@ app.use(express.json())
 app.use(cors())
 app.use(middleware)
 
+const router = [
+    footballClubsRouter,matchFixtureRouter,playersRouter,
+    teamsRouter,tournamentGroupRouter,tournamentRouter
+]
 
-app.use("/gf",footballClubsRouter,matchFixtureRouter,playersRouter,
-              teamsRouter,tournamentGroupRouter,tournamentRouter)
+
+app.use("/gf",...router)
 
 app.listen(PORT, ()=> console.log(`Server is running on port ${PORT}`))
 
