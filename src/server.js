@@ -2,14 +2,16 @@ import express from "express"
 import cors from "cors"
 import pg from "pg"
 
-const {Client} = pg
+const {Pool} = pg
 
 import { middleware } from "./middleware/index.js"
-import { router } from "./routes/index.js"
+import {footballClubsRouter,matchFixtureRouter,
+        playersRouter,teamsRouter,
+        tournamentGroupRouter,tournamentRouter} from "./routes/index.js"
 
 const app = express()
 const PORT = 3000
-const con = new Client({
+const con = new Pool({
     user: "postgres",
     password:"2703",
     host:"localhost",
@@ -28,7 +30,8 @@ app.use(cors())
 app.use(middleware)
 
 
-app.use("/gf", router)
+app.use("/gf",footballClubsRouter,matchFixtureRouter,playersRouter,
+              teamsRouter,tournamentGroupRouter,tournamentRouter)
 
 app.listen(PORT, ()=> console.log(`Server is running on port ${PORT}`))
 
