@@ -1,18 +1,13 @@
-const a = 777
+import { ServerApp } from "./app.js";
+import { mongoConnection } from "./config/index.js";
 
-// let str = String(a)
+const PORT = process.env.PORT
 
-// str = str.split("")
-
-// let sum = 0
-
-// for(let i of str){
-//     sum+=+i
-// }
-// const sum = [...String(a)].reduce((acc,val) => acc + +val,0)
-// console.log(sum);
-
-console.log([...String(a)].reduce((acc,val) => acc + +val,0))
+function startFunc(){
+    ServerApp.listen(PORT, ()=> console.log(`Server is running on port ${PORT}`))
+}
+startFunc()
+mongoConnection()
 
 
 
