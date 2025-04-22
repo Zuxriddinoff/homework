@@ -17,7 +17,7 @@ export const authMiddleware = async(req, res, next) => {
     } catch (error) {
         next(error)
     }
-    
+
 }
 
 // export const authMiddleware = async (req, res, next) => {

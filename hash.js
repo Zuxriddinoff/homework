@@ -23,5 +23,5 @@ console.log("Original:", plain);
 console.log("Hashed:  ", hashed);
 
 // Tekshirib ko'ramiz
-console.log("To‘g'ri keldimi:", comparePassword("hello123", hashed)); // true
+console.log("To'g'ri keldimi:", comparePassword("hello123", hashed)); // true
 console.log("Xato parol bilan:", comparePassword("hello124", hashed)); // false
