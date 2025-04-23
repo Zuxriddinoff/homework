@@ -97,5 +97,32 @@ export const userController = {
         } catch (error) {
             next(error)
         }
+    },
+    singinAdmin: async(req, res) => {
+        try {
+            const { username, password} = req.body
+            const admin = await Admin.findOne({username})
+            if(!admin){
+                throw new Error(`admin not found`);
+            }
+            const ismatchPassword = await encode (password, admin.hashedPassword)
+            if(!ismatchPassword){
+                throw new Error(`invalid password`)
+            }
+            const payload = { id: admin._id, role:admin.role };
+            const accessToken = generateAccessToken(payload)
+            const refreshToken = generateRefreshToken(payload)
+
+            return res.status(200).json({
+                statusCode:200,
+                message:`succes`,
+                data: {
+                    accessToken,
+                    refreshToken
+                }
+            })
+        } catch (error) {
+            catchError(error, res)
+        }
     }
 }
