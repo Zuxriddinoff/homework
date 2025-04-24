@@ -1,18 +1,18 @@
 import express from "express"
-import dotenv from "dotenv"
-import { config } from "./config/db.js"
-import { connectionDB } from "./db/db.js"
-import { userRouter } from "./router/index.js"
-
-dotenv.config()
-const PORT = config.port || 5555
+import { config } from "dotenv"
+import cookieParser from "cookie-parser";
+import { connectionDB } from "./db/db.js";
+import adminRouter from './router/user.routes.js'
+config();
 
 const app = express()
+const PORT = +process.env.PORT;
+
+
 app.use(express.json())
+app.use(cookieParser())
+await connectionDB()
 
-app.use("/user", userRouter)
+app.use("/admin", adminRouter)
 
-connectionDB()
-app.listen(PORT, () => {
-    console.log(`server is running on port ${PORT}`);
-})
+app.listen(PORT, () => console.log(`server is running on port`, PORT))

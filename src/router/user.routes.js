@@ -1,12 +1,19 @@
-import express from "express"
-import { userController } from "../controller/user.controller.js";
+import { Router } from "express";
+import { AdminController } from "../controller/admin.controller.js";
+import { jwtAuthGuard } from "../middleware/jwt-auth.guard.js";
+import { SuperAdminGuard } from "../middleware/superadmin.guard.js";
+import { SelfGuard } from "../middleware/self-admin.guard.js";
 
-const router = express.Router()
+const router = Router();
+const controller = new AdminController()
 
-router.post("/", userController.create)
-router.put("/:id", userController.update)
-router.get("/", userController.getall)
-router.get("/:id", userController.getone)
-router.delete("/:id", userController.delete)
+router
+    .post("/superadmin", controller.createSuperAdmin)
+    .post('/', jwtAuthGuard, SuperAdminGuard, controller.createAdmin)
+    .post("/signin", controller.singinAdmin)
+    .get("/", jwtAuthGuard, SuperAdminGuard, controller.getAllAdmins)
+    .get("/:id", jwtAuthGuard, SelfGuard, controller.getAdminById)
+    .patch("/:id", jwtAuthGuard, SelfGuard, controller.updateAdminById)
+    .delete("/:id", jwtAuthGuard, SuperAdminGuard, controller.deleteAdminById)
 
-export {router as userRouter}
+export default router;
