@@ -3,6 +3,7 @@ import { adminValidator } from "../utils/admin.validator.js"
 import { catchError } from "../utils/error.response.js"
 import { decode, encode } from "../utils/bcrypt-enycrpt.js"
 import { generateAccessToken, generateRefreshToken } from "../utils/generate.token.js"
+import { transporter } from "../utils/mailer.js"
 
 export class AdminController {
     async createSuperAdmin(req, res){
@@ -61,6 +62,17 @@ export class AdminController {
                 data:admins
             })        } catch (error) {
             catchError(res, 500, error.message)
+        }
+    }
+    static async findById(id) {
+        try {
+            const admin = await Admin.findById(id);
+            if(!admin){
+                catchError(res, 404, `admin not found by id ${id}`)
+            }
+            return admin;
+        } catch (error) {
+            catchError(res, error)
         }
     }
     async getAdminById(req, res){
@@ -122,6 +134,19 @@ export class AdminController {
                 secure: true,
                 maxAge: 30 * 24 * 60 * 60 * 1000
             })
+            const mailMessage = {
+                from: process.env.SMTP_USER,
+                to:'l931012940@gmail.com',
+                subject:'HALA MADRID',
+                text:'Real Madrid will beat Barca'
+            }
+            transporter.sendMail(mailMessage, function(err, info){
+                if(err){
+                    catchError(res, 400, `Error on sending to mail: ${err}`)
+                }else{
+                    console.log(info);
+                }
+            })
             return res.status(200).json({
                 statuscode:200,
                 message:'succes',
@@ -130,15 +155,46 @@ export class AdminController {
             catchError(res, 500, error.message)
         }
     }
-    async findById(id) {
+    async signoutAdmin(req, res){
         try {
-            const admin = await Admin.findById(id);
-            if(!admin){
-                catchError(res, 404, `admin not found by id ${id}`)
+            const refreshToken = req.cookies.refreshToken;
+            if(!refreshToken){
+                catchError(res, 401, 'refresh token not found')
             }
-            return admin;
+            const decodedToken = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_KEY)
+            if(!decodedToken){
+                catchError(res, 401, 'refresh token expired')
+            }
+            res.clearCookie('refreshToken')
+            return res.status(200).json({
+                statusCode:200,
+                message:'success',
+                data:{}
+            })
         } catch (error) {
-            catchError(res, error)
+            catchError(res, 500, error
+            )
+        }
+    }
+    async acceessToken(req, res){
+        try {
+            const refreshToken = req.cookies.refreshToken;
+            if(!refreshToken){
+                catchError(res, 401, 'refresh token not found')
+            }
+            const decodedToken = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_KEY)
+            if(!decodedToken){
+                catchError(res, 401, 'refresh token expired')
+            }
+            const payload = { id: decodedToken.id, role:decodedToken.role };
+            const accessToken = generateAccessToken(payload);
+            return res.status(200).json({
+                statusCode:200,
+                message: 'success',
+                data: accessToken
+            })
+        } catch (error) {
+            catchError(res, 500, error.message)
         }
     }
 }

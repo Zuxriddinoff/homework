@@ -11,6 +11,8 @@ router
     .post("/superadmin", controller.createSuperAdmin)
     .post('/', jwtAuthGuard, SuperAdminGuard, controller.createAdmin)
     .post("/signin", controller.singinAdmin)
+    .post("/signout", jwtAuthGuard, controller.signoutAdmin)
+    .post("/token", controller.acceessToken)
     .get("/", jwtAuthGuard, SuperAdminGuard, controller.getAllAdmins)
     .get("/:id", jwtAuthGuard, SelfGuard, controller.getAdminById)
     .patch("/:id", jwtAuthGuard, SelfGuard, controller.updateAdminById)
