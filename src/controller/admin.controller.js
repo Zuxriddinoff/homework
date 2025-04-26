@@ -4,6 +4,7 @@ import { catchError } from "../utils/error.response.js"
 import { decode, encode } from "../utils/bcrypt-enycrpt.js"
 import { generateAccessToken, generateRefreshToken } from "../utils/generate.token.js"
 import { transporter } from "../utils/mailer.js"
+import jwt from "jsonwebtoken"
 
 export class AdminController {
     async createSuperAdmin(req, res){
@@ -194,6 +195,7 @@ export class AdminController {
                 data: accessToken
             })
         } catch (error) {
+            console.log(error);
             catchError(res, 500, error.message)
         }
     }
