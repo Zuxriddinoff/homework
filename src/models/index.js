@@ -1,3 +1,2 @@
-export * from "./courseSchema.js"
-export * from "./userSchema.js"
-export * from "./authUserSchema.js"
+export * from "./course.model.js"
+export * from "./user.model.js"
