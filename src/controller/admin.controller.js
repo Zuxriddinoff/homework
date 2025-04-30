@@ -5,6 +5,8 @@ import { decode, encode } from "../utils/bcrypt-enycrpt.js"
 import { generateAccessToken, generateRefreshToken } from "../utils/generate.token.js"
 import { transporter } from "../utils/mailer.js"
 import jwt from "jsonwebtoken"
+import { otpGenerator } from "../utils/otp-generator.js"
+import { getCache, setCache } from "../utils/cache.js"
 
 export class AdminController {
     async createSuperAdmin(req, res){
@@ -127,32 +129,27 @@ export class AdminController {
             if(!ismatchPassword){
                 catchError(res, 400, 'invalid password')
             }
-            const payload = { id: admin._id, role:admin.role };
-            const accessToken = generateAccessToken(payload)
-            const refreshToken = generateRefreshToken(payload)
-            res.cookie('refreshToken', refreshToken, {
-                httpOnly: true,
-                secure: true,
-                maxAge: 30 * 24 * 60 * 60 * 1000
-            })
+            const otp = otpGenerator()
             const mailMessage = {
                 from: process.env.SMTP_USER,
-                to:'l931012940@gmail.com',
+                to:'zuxriddinovoff@gmail.com',
                 subject:'HALA MADRID',
-                text:'Real Madrid will beat Barca'
+                text:otp
             }
             transporter.sendMail(mailMessage, function(err, info){
                 if(err){
                     catchError(res, 400, `Error on sending to mail: ${err}`)
                 }else{
                     console.log(info);
+                    setCache(admin.username, otp)
                 }
             })
             return res.status(200).json({
                 statuscode:200,
                 message:'succes',
-                data:accessToken
-            })        } catch (error) {
+                data:{}
+            })        
+        } catch (error) {
             catchError(res, 500, error.message)
         }
     }
@@ -196,6 +193,34 @@ export class AdminController {
             })
         } catch (error) {
             console.log(error);
+            catchError(res, 500, error.message)
+        }
+    }
+    async confirimsigninAdmin(req, res){
+        try {
+            const {username, otp} = req.body
+            const admin = await Admin.findOne({username})
+            if(!admin){
+                catchError(res, 404, 'admin not found')
+            }
+            const otpCache = getCache(username)
+            if(!otpCache || otp != otpCache){
+                catchError(res, 400, 'otp expired')
+            }
+            const payload = { id: admin._id, role:admin.role };
+            const accessToken = generateAccessToken(payload)
+            const refreshToken = generateRefreshToken(payload)
+            res.cookie('refreshToken', refreshToken, {
+                httpOnly: true,
+                secure: true,
+                maxAge: 30 * 24 * 60 * 60 * 1000
+            })
+            return res.status(200).json({
+                statuscode:200,
+                message:'success',
+                data:accessToken
+            })
+        } catch (error) {
             catchError(res, 500, error.message)
         }
     }

@@ -13,6 +13,7 @@ router
     .post("/signin", controller.singinAdmin)
     .post("/signout", jwtAuthGuard, controller.signoutAdmin)
     .post("/token", controller.acceessToken)
+    .post("/confirm-signin", controller.confirimsigninAdmin)
     .get("/", jwtAuthGuard, SuperAdminGuard, controller.getAllAdmins)
     .get("/:id", jwtAuthGuard, SelfGuard, controller.getAdminById)
     .patch("/:id", jwtAuthGuard, SelfGuard, controller.updateAdminById)
