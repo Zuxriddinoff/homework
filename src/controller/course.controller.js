@@ -18,7 +18,7 @@ export class CourseController {
 
   async getAll(__, res) {
     try {
-      const allCourses = await Course.find();
+      const allCourses = await Course.find().populate("teacher_id");
 
       return successRes(res, 200, "success", allCourses);
     } catch (error) {

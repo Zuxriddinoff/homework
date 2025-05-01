@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import mongoose, { Schema, model } from "mongoose";
 
 const courseSchema = new Schema(
   {
@@ -14,8 +14,8 @@ const courseSchema = new Schema(
       required: true,
     },
     teacher_id: {
-      type: String,
-      trim: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       required: true,
     },
   },

@@ -64,7 +64,7 @@ export class AdminController {
 
   async getAllUsers(__, res) {
     try {
-      const allUsers = await User.find({ role: "user" });
+      const allUsers = await User.find();
 
       return successRes(res, 200, `success`, allUsers);
     } catch (error) {
@@ -87,7 +87,7 @@ export class AdminController {
           res,
           200,
           `success`,
-          existsTeacher.populate("enrolledCourse_id")
+          existsTeacher
         );
       }
 
