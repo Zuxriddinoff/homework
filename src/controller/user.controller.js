@@ -1,4 +1,4 @@
-import { User } from "../models/index.js";
+import { Course, User } from "../models/index.js";
 import {
   comparePass,
   cookie,
@@ -12,7 +12,6 @@ import {
   verifyOTP,
   verifyToken,
 } from "../utils/index.js";
-
 
 export class UserController {
   async register(req, res) {
@@ -176,5 +175,25 @@ export class UserController {
     } catch (error) {
       return errorResponse(res, 500, error);
     }
+  }
+
+  async getAllCourses(req, res) {
+    try {
+      const user = req.user;
+      
+      if (!user) {
+        return errorResponse(res, 401, `User not found`);
+      }
+
+      const existsCourses = await User.findById(user.sub).populate(
+        "enrolledCourse_id"
+      );
+      
+      if (!existsCourses) {
+        return errorResponse(res, 404, `Course not found`);
+      }
+
+      return successRes(res, 200, `success`, existsCourses);
+    } catch (error) {}
   }
 }

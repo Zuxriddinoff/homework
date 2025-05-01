@@ -5,9 +5,7 @@ import {
   cookie,
   errorResponse,
   generateToken,
-  hashPass,
   successRes,
-  userValidation,
 } from "../utils/index.js";
 
 export class AdminController {
@@ -69,6 +67,31 @@ export class AdminController {
       const allUsers = await User.find({ role: "user" });
 
       return successRes(res, 200, `success`, allUsers);
+    } catch (error) {
+      return errorResponse(res, 500, error);
+    }
+  }
+
+  async getTeacherById(req, res) {
+    try {
+      const { id } = req.params;
+
+      if (!id) {
+        return errorResponse(res, 400, `ID not found`);
+      }
+
+      const existsTeacher = await User.findById(id);
+
+      if (existsTeacher.role === "teacher") {
+        return successRes(
+          res,
+          200,
+          `success`,
+          existsTeacher.populate("enrolledCourse_id")
+        );
+      }
+
+      return errorResponse(res, 403, `Invalid role`);
     } catch (error) {
       return errorResponse(res, 500, error);
     }

@@ -6,7 +6,7 @@ const user = z.object({
   email: z.string().email(),
   password: z.string().min(4).max(15),
   enrolledCourse_id: z.string().optional(),
-  role: z.enum("user", "admin", "superadmin").optional(),
+  role: z.enum("user", "admin", "superadmin", "teacher").optional(),
   otp_secret: z.string().optional(),
   otp_enabled: z.boolean().default(false),
 });
@@ -32,7 +32,7 @@ export const userValidation = (data) => {
 const course = z.object({
   title: z.string().min(4).max(30),
   description: z.string().min(5),
-  teacher: z.string(),
+  teacher_id: z.string(),
 });
 
 export const courseValidation = (data) => {

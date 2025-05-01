@@ -22,7 +22,6 @@ router
   )
   .post("/createAdmin", jwtAuthGuard, superAdminGuard, controller.createAdmin)
   .get("/admins", jwtAuthGuard, superAdminGuard, controller.getAllAdmins)
-  .get("/users", jwtAuthGuard, selfAuthGuard, controller.getAllUsers)
   .put("/admin/:id", jwtAuthGuard, superAdminGuard, controller.updateAdminByID)
   .delete(
     "/admin/:id",

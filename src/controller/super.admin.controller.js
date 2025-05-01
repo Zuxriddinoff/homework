@@ -113,16 +113,6 @@ export class SuperAdminController {
     }
   }
 
-  async getAllUsers(__, res) {
-    try {
-      const allUsers = await User.find({ role: "user" });
-
-      return successRes(res, 200, `success`, allUsers);
-    } catch (error) {
-      return errorResponse(res, 500, error);
-    }
-  }
-
   async createAdmin(req, res) {
     try {
       const { data } = userValidation(req.body);

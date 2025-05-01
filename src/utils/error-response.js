@@ -4,6 +4,6 @@ export const errorResponse = (res, statuscode, err) => {
     .json({
       statusCode: statuscode,
       message: err || "Internal server error",
-      errorType: err.message || "Unknown errorType",
+      errorType: err.name || "Unknown errorType",
     });
 };

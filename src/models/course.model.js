@@ -13,7 +13,7 @@ const courseSchema = new Schema(
       trim: true,
       required: true,
     },
-    teacher: {
+    teacher_id: {
       type: String,
       trim: true,
       required: true,

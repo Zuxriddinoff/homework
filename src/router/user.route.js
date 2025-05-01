@@ -1,6 +1,7 @@
 import { Router } from "express";
 
 import { UserController } from "../controller/index.js";
+import { jwtAuthGuard } from "../middleware/index.js";
 
 const router = Router();
 
@@ -11,6 +12,7 @@ router
   .post("/verifyOtp", controller.verifyOtp)
   .post("/login", controller.login)
   .post("/refreshToken", controller.refreshToken)
-  .post("/logout", controller.logout);
+  .post("/logout", controller.logout)
+  .get("/courses", jwtAuthGuard,controller.getAllCourses);
 
 export { router as userRouter };
