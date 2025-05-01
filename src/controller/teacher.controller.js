@@ -20,7 +20,7 @@ export class TeacherController {
         email,
         password: encodedPass,
         enrolledCourse_id,
-        role: "user",
+        role: "teacher",
         otp_secret: null,
         otp_enabled: null,
       });
