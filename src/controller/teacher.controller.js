@@ -1,4 +1,10 @@
-import { hashPass, successRes, errorResponse } from "../utils/index.js";
+import { User } from "../models/index.js";
+import {
+  hashPass,
+  successRes,
+  errorResponse,
+  userValidation,
+} from "../utils/index.js";
 
 export class TeacherController {
   async registerTeacher(req, res) {
@@ -19,8 +25,8 @@ export class TeacherController {
         name,
         email,
         password: encodedPass,
-        role: "teacher",
         enrolledCourse_id: null,
+        role: "teacher",
         otp_secret: null,
         otp_enabled: null,
       });
