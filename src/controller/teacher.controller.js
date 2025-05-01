@@ -5,7 +5,7 @@ export class TeacherController {
     try {
       const { data } = userValidation(req.body);
 
-      const { name, email, password, enrolledCourse_id } = data;
+      const { name, email, password } = data;
 
       const existsUser = await User.findOne({ email });
 
@@ -19,8 +19,8 @@ export class TeacherController {
         name,
         email,
         password: encodedPass,
-        enrolledCourse_id,
         role: "teacher",
+        enrolledCourse_id: null,
         otp_secret: null,
         otp_enabled: null,
       });
