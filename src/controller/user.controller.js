@@ -3,10 +3,10 @@ import { decode, encode } from "../utils/bcrypt-encrypt.js";
 import { catchError } from "../utils/error-response.js";
 import { transporter } from "../utils/mailer.js";
 import { getCache, setCache } from "../utils/cache.js";
-import { otpGenerator } from "../utils/otp-generetor.js";
+import { otpGenerator } from "../utils/otp-generator.js";
 import { userValidator } from "../validations/user.validation.js";
 import { successRes } from "../utils/user.success.js";
-import { generateAccessToken, generateRefreshToken } from "../utils/ganarate-token.js";
+import { generateAccessToken, generateRefreshToken } from "../utils/generate-token.js";
 import { log } from "console";
 
 
