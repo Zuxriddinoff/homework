@@ -21,7 +21,7 @@ export class AdminController {
 
       const isMatch = await comparePass(password, existsAdmin.password);
 
-      if (!isMatch) {
+      if (isMatch) {
         return errorResponse(res, 401, `Invalid password`);
       }
 
@@ -34,7 +34,11 @@ export class AdminController {
 
       const { accessToken, refreshToken } = token;
       cookie(res, refreshToken);
-      return successRes(res, 200, `Admin logged in successfully`, accessToken);
+      return successRes(
+        res,
+        200,
+        `Admin logged in ${accessToken} successfully`
+      );
     } catch (error) {
       return errorResponse(res, 500, error);
     }
@@ -66,7 +70,7 @@ export class AdminController {
     try {
       const allUsers = await User.find();
 
-      return successRes(res, 200, `success`, allUsers);
+      return successRes(res, 200, 'success', allUsers);
     } catch (error) {
       return errorResponse(res, 500, error);
     }
@@ -74,7 +78,7 @@ export class AdminController {
 
   async getTeacherById(req, res) {
     try {
-      const { id } = req.params;
+      const { id } = req.params.id;
 
       if (!id) {
         return errorResponse(res, 400, `ID not found`);
@@ -83,12 +87,7 @@ export class AdminController {
       const existsTeacher = await User.findById(id);
 
       if (existsTeacher.role === "teacher") {
-        return successRes(
-          res,
-          200,
-          `success`,
-          existsTeacher
-        );
+        return successRes(res, 200, `success`, existsTeacher);
       }
 
       return errorResponse(res, 403, `Invalid role`);
@@ -99,7 +98,7 @@ export class AdminController {
 
   async updateUserByID(req, res) {
     try {
-      const { id } = req.params;
+      const { id } = req.params.id;
 
       if (!id) {
         return errorResponse(res, 400, `ID not found`);
@@ -115,7 +114,7 @@ export class AdminController {
 
   async deleteUserByID(req, res) {
     try {
-      const { id } = req.params;
+      const { id } = req.params.id;
 
       if (!id) {
         return errorResponse(res, 400, `ID not found`);

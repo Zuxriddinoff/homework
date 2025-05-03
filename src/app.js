@@ -1,11 +1,10 @@
 import express from "express";
 import cookieParser from "cookie-parser";
-import morgan from "morgan";
 
 import { mainRouter } from "./router/index.js";
-import { monngoDB } from "./config/index.js";
+import { mongoDB } from "./config/index.js";
 import { logger } from "./utils/logger/index.js";
-monngoDB();
+mongoDB();
 
 const app = express();
 const PORT = +process.env.PORT;
@@ -13,7 +12,6 @@ const PORT = +process.env.PORT;
 // middleware
 app.use(express.json());
 app.use(cookieParser());
-app.use(morgan("dev"));
 
 app.use("/course", mainRouter);
 

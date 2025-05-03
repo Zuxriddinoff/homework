@@ -1,6 +1,6 @@
 import { connect } from "mongoose";
 
-export const monngoDB = () => {
+export const mongoDB = () => {
   try {
     connect(process.env.MONGO_URI);
     console.log(`Mongo connected`);

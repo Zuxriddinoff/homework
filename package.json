@@ -8,15 +8,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DiyorMarufov/N-20-NODEJS.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/DiyorMarufov/N-20-NODEJS/issues"
   },
-  "homepage": "https://github.com/DiyorMarufov/N-20-NODEJS#readme",
   "description": "",
   "type": "module",
   "dependencies": {
