@@ -2,9 +2,7 @@ import Admin from '../models/admin.model.js';
 import { catchError } from '../utils/error-response.js';
 import { adminValidator } from '../validation/admin.validation.js';
 import { decode, encode } from '../utils/bcrypt-encrypt.js';
-import {
-  generateAccessToken,
-  generateRefreshToken,
+import {generateAccessToken, generateRefreshToken,
 } from '../utils/generate-token.js';
 import jwt from 'jsonwebtoken';
 import { transporter } from '../utils/mailer.js';
@@ -24,7 +22,7 @@ export class AdminController {
       if (checkSuperAdmin) {
         return catchError(res, 409, 'Super admin already exist');
       }
-      const hashedPassword = await decode(password, 7);
+      const hashedPassword = await encode(password, 7);
       const superadmin = await Admin.create({
         username,
         hashedPassword,
@@ -51,7 +49,7 @@ export class AdminController {
       if (existUsername) {
         return catchError(res, 409, 'Username already exist');
       }
-      const hashedPassword = await decode(password, 7);
+      const hashedPassword = await encode(password, 7);
       const admin = await Admin.create({
         username,
         hashedPassword,
@@ -74,7 +72,7 @@ export class AdminController {
       if (!admin) {
         return catchError(res, 404, 'Admin not found');
       }
-      const isMatchPassword = await encode(password, admin.hashedPassword);
+      const isMatchPassword = await decode(password, admin.hashedPassword);
       if (!isMatchPassword) {
         return catchError(res, 400, 'Invalid password');
       }
@@ -207,7 +205,7 @@ export class AdminController {
   async updateAdminById(req, res) {
     try {
       const id = req.params.id;
-      await AdminController.findById(res, id);
+      const admin = await AdminController.findById(res, id);
       if (req.body.username) {
         const existUsername = await Admin.findOne({
           username: req.body.username,
@@ -216,8 +214,14 @@ export class AdminController {
           return catchError(res, 409, 'Username already exist');
         }
       }
+      let hashedPassword = admin.hashedPassword;
+      if(req.body.password){
+        hashedPassword = encode(req.body.password, 7)
+        delete req.body.password
+      }
       const updatedAdmin = await Admin.findByIdAndUpdate(id, req.body, {
-        new: true,
+        ...req.body,
+        hashedPassword
       });
       return res.status(200).json({
         statusCode: 200,

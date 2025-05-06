@@ -5,6 +5,9 @@ import adminRouter from './routes/admin.routes.js';
 import doctorRouter from './routes/doctor.routes.js';
 import cookieParser from 'cookie-parser';
 import logger from './utils/logger/logger.js';
+import GraphRouter from "./routes/graph.routes.js"
+import PatientRouter from './routes/patient.routes.js'
+import AppointmentRouter from './routes/appointment.routes.js'
 config();
 
 const app = express();
@@ -16,6 +19,9 @@ await connectDB();
 
 app.use('/admin', adminRouter);
 app.use('/doctor', doctorRouter);
+app.use("/graph", GraphRouter)
+app.use('/patient', PatientRouter)
+app.use('/appointment', AppointmentRouter)
 
 process.on('uncaughtException', (err) => {
   if (err) console.log(`Uncaught exception: ${err}`);
@@ -32,7 +38,7 @@ app.use((err, req, res, next) => {
       .status(500)
       .json({ error: err.message || 'Internal server error' });
   } else {
-    next();
+    return next();
   }
 });
 

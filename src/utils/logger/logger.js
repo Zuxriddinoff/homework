@@ -17,11 +17,11 @@ const logger = createLogger({
       level: 'error',
     }),
     new transports.File({ filename: 'logs/combined.log' }),
-    new transports.MongoDB({
-      db: process.env.MONGO_URI,
-      collection: 'logs',
-      level: 'info',
-    }),
+    // new transports.MongoDB({
+    //   db: process.env.MONGO_URI,
+    //   collection: 'logs',
+    //   level: 'info',
+    // }),
   ],
 });
 

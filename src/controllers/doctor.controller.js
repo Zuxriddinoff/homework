@@ -3,10 +3,7 @@ import { catchError } from '../utils/error-response.js';
 import { doctorValidator } from '../validation/doctor.validation.js';
 import { otpGenerator } from '../utils/otp-generator.js';
 import { getCache, setCache } from '../utils/cache.js';
-import {
-  generateAccessToken,
-  generateRefreshToken,
-} from '../utils/generate-token.js';
+import { generateAccessToken, generateRefreshToken,} from '../utils/generate-token.js';
 import { refTokenWriteCookie } from '../utils/write-cookie.js';
 
 export class DoctorController {
@@ -90,7 +87,7 @@ export class DoctorController {
       if (!decodedToken) {
         return catchError(res, 401, 'Refresh token doctor expired');
       }
-      const payload = { id: decodedToken.id, role: decodedToken.role };
+      const payload = { id: decodedToken.id, is_doctor: true };
       const accessToken = generateAccessToken(payload);
       return res.status(200).json({
         statusCode: 200,
@@ -128,7 +125,7 @@ export class DoctorController {
 
   async getAllDoctors(_, res) {
     try {
-      const doctors = await Doctor.find();
+      const doctors = await Doctor.find().populate('graph');
       return res.status(200).json({
         statusCode: 200,
         message: 'success',
@@ -194,7 +191,7 @@ export class DoctorController {
 
   static async findDoctorById(res, id) {
     try {
-      const doctor = await Doctor.findById(id);
+      const doctor = await Doctor.findById(id).populate('graph');
       if (!doctor) {
         return catchError(res, 404, `Doctor not found by ID ${id}`);
       }
