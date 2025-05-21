@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "name": "O'zbekiston",
+    "population": 39000000,
+    "capital": "Tashkent"
+  },
+  {
+    "id": 3,
+    "name": "O'zbekiston",
+    "population": 44000000,
+    "capital": "Tashkent"
+  },
+  {
+    "id": 4,
+    "name": "O'zbekiston",
+    "population": 39000000,
+    "capital": "Tashkent"
+  }
+]
