@@ -1,4 +1,5 @@
-import { Column, Table, Model, DataType } from "sequelize-typescript";
+import { Column, Table, Model, DataType, ForeignKey, BelongsTo } from "sequelize-typescript";
+import { Country } from "src/countries/models/countries.model";
 
 @Table({tableName:'users'})
 export class User extends Model{
@@ -19,4 +20,17 @@ export class User extends Model{
         allowNull:false
     })
     age:number;
+
+    @ForeignKey(() => Country)
+    @Column({
+        type:DataType.INTEGER,
+        allowNull:false
+    })
+    countryId:number;
+
+    @BelongsTo(() => Country, {
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    country:Country
 }
